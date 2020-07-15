@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.mapper.NewsMapper">
+
+    <select id="queryById" parameterType="int" resultType="com.zj.pojo.News">
+        SELECT * FROM news WHERE NewsID=#{id}
+    </select>
+
+</mapper>
