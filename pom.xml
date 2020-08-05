@@ -6,10 +6,23 @@
     <groupId>com.zj</groupId>
     <artifactId>springCloud1</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <!--注意这里父工程的打包方式是pom-->
     <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Finchley.SR1</spring-cloud.version>
+        <mapper.starter.version>1.3.0</mapper.starter.version>
+        <mysql.version>5.1.32</mysql.version>
+        <pageHelper.starter.version>1.1.1</pageHelper.starter.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <junit.version>4.12</junit.version>
@@ -19,40 +32,34 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--springCloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR1</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>1.5.9.RELEASE</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>5.0.4</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>1.0.31</version>
-            </dependency>
+            <!--mapper启动器-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>1.3.0</version>
+                <version>${mapper.starter.version}</version>
             </dependency>
+            <!--分页助手启动-->
             <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>1.2.3</version>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pageHelper.starter.version}</version>
             </dependency>
+
+            <!--mysql-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -66,6 +73,20 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <!--下面的插件所有的子工程都会有，dependencyManagement需要手动引入子工程才会有-->
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.31</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>springCloud1</finalName>
@@ -90,14 +111,12 @@
 
 
     <modules>
-       <!-- <module>microservicecloud-config-3344</module>
-        <module>microservicecloud-config-client-3355</module>
-        <module>microservicecloud-config-eureka-client-7001</module>
-        <module>microservicecloud-config-dept-client-8001</module>-->
+        <!-- <module>microservicecloud-config-3344</module>
+         <module>microservicecloud-config-client-3355</module>
+         <module>microservicecloud-config-eureka-client-7001</module>
+         <module>microservicecloud-config-dept-client-8001</module>-->
         <module>eureka-server</module>
         <module>user-provider</module>
         <module>user-consumer</module>
     </modules>
-
-
 </project>
