@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author: 张军
  * @create: 2020-08-12 14:27
  **/
-@FeignClient("user-provider")
+@FeignClient("user-provider")//需要调用的服务名称，去eureka拉取服务列表
 public interface UserFeignClient {
     @RequestMapping("/{id}")
     public News queryNews(@PathVariable("id") int id);
