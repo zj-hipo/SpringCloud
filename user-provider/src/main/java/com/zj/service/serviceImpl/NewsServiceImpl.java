@@ -26,7 +26,7 @@ public class NewsServiceImpl implements NewsService {
         * */
         try {
             //这里测试hystrix的时候，睡眠设置为2000毫秒以上才有效果；这里为了测试feign将时间设置为1000，不让其超时
-            Thread.sleep(1000L);
+            Thread.sleep(2000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

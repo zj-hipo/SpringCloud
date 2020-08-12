@@ -1,4 +1,5 @@
 package com.zj.controller;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.zj.pojo.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -26,6 +27,7 @@ public class UserFeignController {
     private DiscoveryClient discoveryClient;
     @RequestMapping("/{id}")
     @ResponseBody
+    @HystrixCommand(fallbackMethod = "queryUserByIdFallback")
     public News query(@PathVariable int id){
         //根据服务id获取实例
         discoveryClient.getInstances("user-provider");
@@ -36,6 +38,11 @@ public class UserFeignController {
         // 获取ip和端口信息
         String baseUrl = "http://"+instance.getHost() + ":" + instance.getPort()+"/"+id;
         News news=restTemplate.getForObject(baseUrl,News.class);
+        return news;
+    }
+    public News queryUserByIdFallback(@PathVariable int id){
+        News news = new News();
+        news.setNewsTitle("服务器异常");
         return news;
     }
 }
