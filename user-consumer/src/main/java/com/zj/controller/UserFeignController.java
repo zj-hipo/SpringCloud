@@ -1,5 +1,6 @@
 package com.zj.controller;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.zj.client.UserFeignClient;
 import com.zj.pojo.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -22,22 +23,12 @@ import java.util.List;
 @RequestMapping("/user-consumer")
 public class UserFeignController {
     @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private DiscoveryClient discoveryClient;
+    private UserFeignClient userFeignClient;
     @RequestMapping("/{id}")
     @ResponseBody
     @HystrixCommand(fallbackMethod = "queryUserByIdFallback")
     public News query(@PathVariable int id){
-        //根据服务id获取实例
-        discoveryClient.getInstances("user-provider");
-        // 根据服务名称，获取服务实例
-        List<ServiceInstance> instances = discoveryClient.getInstances("user-provider");
-        // 因为只有一个UserService,因此我们直接get(0)获取
-        ServiceInstance instance = instances.get(0);
-        // 获取ip和端口信息
-        String baseUrl = "http://"+instance.getHost() + ":" + instance.getPort()+"/"+id;
-        News news=restTemplate.getForObject(baseUrl,News.class);
+        News news=userFeignClient.queryNews(id);
         return news;
     }
     public News queryUserByIdFallback(@PathVariable int id){
