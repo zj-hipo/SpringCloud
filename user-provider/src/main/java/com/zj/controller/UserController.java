@@ -28,5 +28,6 @@ public class UserController {
     public News queryById(@PathVariable int id){
         News news=newsService.queryById(id);
         return news;
+
     }
 }

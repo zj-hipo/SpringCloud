@@ -118,5 +118,6 @@
         <module>eureka-server</module>
         <module>user-provider</module>
         <module>user-consumer</module>
+        <module>zuul</module>
     </modules>
 </project>
